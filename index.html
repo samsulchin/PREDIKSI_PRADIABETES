@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEM PREDIKSI PREDIABETES</title>
+    <style>
+        html, body {
+            height: 100%; /* Pastikan html dan body memenuhi seluruh tinggi halaman */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column; /* Membuat body menjadi kolom vertikal */
+        }
+
+        body {
+            background: url('path_to_your_mosaic_image.png') repeat, linear-gradient(45deg, #b2dfdb, #80cbc4, #4db6ac); 
+            background-size: 50px 50px, 100%;
+            background-attachment: fixed;
+            transition: background-color 5s ease;
+            animation: gradientAnimation 10s ease infinite;
+            flex: 1;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-image: url('path_to_your_mosaic_image.png'), linear-gradient(45deg, #b2dfdb, #80cbc4);
+            }
+            50% {
+                background-image: url('path_to_your_mosaic_image.png'), linear-gradient(45deg, #4db6ac, #80cbc4);
+            }
+            100% {
+                background-image: url('path_to_your_mosaic_image.png'), linear-gradient(45deg, #b2dfdb, #4db6ac);
+            }
+        }
+
+        h2 {
+            color: #007e6a;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #2e4053;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #007e6a;
+            border-radius: 5px;
+            background-color: #f9fbe7;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007e6a;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005c51;
+        }
+
+        .result {
+            font-size: 16px;
+            color: #1c2833;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .advice {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 5px solid #007e6a;
+            font-size: 18px;
+            color: #2e7d32;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #007e6a;
+            color: white;
+            font-size: 16px;
+            margin-top: auto; /* Membuat footer tetap di bagian bawah */
+        }
+
+        /* Responsif untuk layar yang lebih kecil seperti smartphone */
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+                margin: 20px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            label {
+                font-size: 16px;
+            }
+
+            input[type="submit"] {
+                font-size: 16px;
+                padding: 8px;
+            }
+
+            .result {
+                font-size: 14px;
+            }
+
+            footer {
+                font-size: 14px;
+                padding: 15px;
+            }
+        }
+
+        /* Responsif untuk layar yang lebih besar seperti tablet atau desktop */
+        @media (min-width: 768px) {
+            .form-container {
+                max-width: 600px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            label {
+                font-size: 20px;
+            }
+
+            input[type="submit"] {
+                font-size: 20px;
+                padding: 12px;
+            }
+
+            .result {
+                font-size: 16px;
+            }
+
+            footer {
+                font-size: 18px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>SISTEM PREDIKSI PREDIABETES</h2>
+        <form id="predictionForm">
+            <label for="Glucose">Kategori Glucose:</label>
+            <select name="Glucose" id="glucose" required>
+                <option value="" disabled selected>Pilih Kategori Glucose</option>
+                <option value="70">Normal (70 - 99 mg/dL)</option>
+                <option value="110">Pra-diabetes (100 - 125 mg/dL)</option>
+                <option value="130">Diabetes (> 126 mg/dL)</option>
+            </select>
+
+            <label for="BMI">Kategori BMI:</label>
+            <select name="BMI" id="bmi" required>
+                <option value="" disabled selected>Pilih Kategori BMI</option>
+                <option value="18.5">Kurus (< 18.5)</option>
+                <option value="22.5">Normal (18.5 - 24.9)</option>
+                <option value="27.5">Overweight (25 - 29.9)</option>
+                <option value="32.5">Obesitas (> 30)</option>
+            </select>
+
+            <label for="Age">Age:</label>
+            <input type="number" name="Age" id="age" required><br>
+
+            <input type="submit" value="Prediksi">
+        </form>
+
+        <div class="result" id="resultText">
+            <h2>{{ prediction_text }}</h2>
+        </div>
+
+        <div class="advice" id="adviceSection" style="display: none;">
+            <h3>Saran dan Pencegahan</h3>
+            <p>Menurut Kementerian Kesehatan, berikut adalah langkah-langkah pencegahan yang bisa Anda lakukan:</p>
+            <ul>
+                <li>Perbaiki pola makan dengan memperbanyak konsumsi sayur, buah, dan makanan rendah gula serta karbohidrat.</li>
+                <li>Olahraga teratur minimal 30 menit setiap hari, seperti berjalan kaki, bersepeda, atau aktivitas fisik lainnya.</li>
+                <li>Kontrol berat badan agar tetap ideal sesuai dengan indeks massa tubuh (BMI).</li>
+                <li>Rutin memeriksa kadar gula darah, terutama jika ada riwayat keluarga dengan diabetes.</li>
+                <li>Kurangi konsumsi makanan tinggi lemak jenuh dan gula tambahan.</li>
+                <li>Jika sudah terdiagnosis pra-diabetes, segera konsultasikan dengan dokter untuk pengelolaan lebih lanjut.</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 SAM DEV FOR HEALTH
+    </footer>
+
+    <script>
+        function setBackgroundBasedOnContent() {
+            let glucoseSelect = document.querySelector('select[name="Glucose"]').value;
+            let bmiSelect = document.querySelector('select[name="BMI"]').value;
+            let resultText = document.getElementById('resultText');
+            
+            if (glucoseSelect === "130" || bmiSelect === "32.5") {
+                document.body.style.backgroundColor = "#ffebee"; // Red tone for warning
+                resultText.innerHTML = "Anda berkemungkinan terkena diabetes 😢";
+                document.getElementById('adviceSection').style.display = 'block'; // Show advice
+            } else if (glucoseSelect === "110" || bmiSelect === "27.5") {
+                document.body.style.backgroundColor = "#fff3e0"; // Orange tone for caution
+                resultText.innerHTML = "Anda berada di kondisi pra-diabetes 😐";
+                document.getElementById('adviceSection').style.display = 'none'; // Hide advice
+            } else {
+                document.body.style.backgroundColor = "#e3f2fd"; // Default soft blue for normal
+                resultText.innerHTML = "Anda berkemungkinan tidak terkena diabetes 😊";
+                document.getElementById('adviceSection').style.display = 'none'; // Hide advice
+            }
+            document.getElementById('resultText').style.display = 'block'; // Tampilkan hasil setelah submit
+        }
+
+        document.getElementById('predictionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah reload halaman
+            setBackgroundBasedOnContent(); // Panggil fungsi prediksi dan tampilkan hasil
+        });
+    </script>
+
+</body>
+</html>
